@@ -2,7 +2,6 @@ package de.saxsys.sample;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
@@ -18,7 +17,7 @@ import java.util.ResourceBundle;
 
 public class DrawingCanvasController implements Initializable {
     @FXML
-    private Canvas drawingCanvas;
+    private Canvas canvas;
     @FXML
     private ColorPicker colorPicker;
     @FXML
@@ -26,37 +25,41 @@ public class DrawingCanvasController implements Initializable {
 
     @Override
     public void initialize(final URL url, final ResourceBundle resourceBundle) {
-        drawingCanvas.getGraphicsContext2D().setLineWidth(5);
-        drawingCanvas.getGraphicsContext2D().setLineCap(StrokeLineCap.ROUND);
+        canvas.getGraphicsContext2D().setLineWidth(5);
+        canvas.getGraphicsContext2D().setLineCap(StrokeLineCap.ROUND);
 
         lineCapComboBox.setItems(FXCollections.observableArrayList(StrokeLineCap.values()));
-        lineCapComboBox.getSelectionModel().select(drawingCanvas.getGraphicsContext2D().getLineCap());
+        lineCapComboBox.getSelectionModel().select(canvas.getGraphicsContext2D().getLineCap());
     }
 
     @FXML
-    void onMouseMoved(final MouseEvent event) {
-        drawingCanvas.getGraphicsContext2D().strokeLine(event.getX(), event.getY(), event.getX() + 1, event.getY() + 1);
+    void drawWithMouse(final MouseEvent event) {
+        drawLine(event.getX(), event.getY());
     }
 
     @FXML
-    void onTouchMoved(final TouchEvent event) {
+    void drawWithTouch(final TouchEvent event) {
         final TouchPoint tp = event.getTouchPoint();
-        drawingCanvas.getGraphicsContext2D().strokeLine(tp.getX(), tp.getY(), tp.getX() + 1, tp.getY() + 1);
+        drawLine(tp.getX(), tp.getY());
+    }
+
+    private void drawLine(double x, double y) {
+        canvas.getGraphicsContext2D().strokeLine(x, y, x + 1, y + 1);
     }
 
     @FXML
     void onActionColorPicked() {
-        drawingCanvas.getGraphicsContext2D().setStroke(colorPicker.getValue());
+        canvas.getGraphicsContext2D().setStroke(colorPicker.getValue());
     }
 
     @FXML
     void onActionLineCapChoosed() {
-        drawingCanvas.getGraphicsContext2D().setLineCap(lineCapComboBox.getSelectionModel().getSelectedItem());
+        canvas.getGraphicsContext2D().setLineCap(lineCapComboBox.getSelectionModel().getSelectedItem());
     }
 
     @FXML
     void onActionClearAll() {
-        drawingCanvas.getGraphicsContext2D().clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
+        canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
     @FXML

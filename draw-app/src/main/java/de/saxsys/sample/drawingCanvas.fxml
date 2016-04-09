@@ -25,6 +25,10 @@
       </HBox>
    </top>
    <center>
-      <Canvas fx:id="drawingCanvas" height="400.0" onMouseMoved="#onMouseMoved" onTouchMoved="#onTouchMoved" width="800.0" BorderPane.alignment="CENTER" />
+      <Canvas fx:id="canvas" height="400.0"
+              onMouseMoved="#drawWithMouse"
+              onTouchMoved="#drawWithTouch"
+              width="800.0"
+              BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>
