@@ -64,15 +64,14 @@
                         <phase>install</phase>
                         <configuration>
                             <target>
-                                <!-- run a command on the remote server (here mkdir) -->
-                                <sshexec command="mkdir -p ${pi.deployPath}" host="${pi.host}" password="${pi.password}" port="22" trust="true" username="${pi.user}"></sshexec>
-                                <!-- copy the shaded jar to the raspberry pi on install -->
+                                <!-- create folder on pi -->
+                                <sshexec command="mkdir -p ${pi.deployPath}" host="${pi.host}" password="${pi.password}" port="22" trust="true" username="${pi.user}" />
+                                <!-- copy created jar into folder -->
                                 <scp failonerror="true" todir="${pi.user}:${pi.password}@${pi.host}:${pi.deployPath}" trust="true">
-                                    <fileset file="${project.basedir}/target/${project.artifactId}-${project.version}-jar-with-dependencies.jar">
-                                    </fileset>
+                                    <fileset file="${project.basedir}/target/${project.artifactId}-${project.version}-jar-with-dependencies.jar" />
                                 </scp>
-                                <!-- run a command on the remote server (run jar file) -->
-                                <sshexec command="sudo java -Djava.ext.dirs=/home/pi/armv6hf-sdk/rt/lib/ext -jar ${pi.deployPath}/${project.artifactId}-${project.version}-jar-with-dependencies.jar" host="${pi.host}" password="${pi.password}" port="22" trust="true" username="${pi.user}"></sshexec>
+                                <!-- run jar on pi -->
+                                <sshexec command="sudo java -Djava.ext.dirs=/home/pi/armv6hf-sdk/rt/lib/ext -jar ${pi.deployPath}/${project.artifactId}-${project.version}-jar-with-dependencies.jar" host="${pi.host}" password="${pi.password}" port="22" trust="true" username="${pi.user}" />
                             </target>
                         </configuration>
                         <goals>
