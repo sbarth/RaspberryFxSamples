@@ -9,8 +9,8 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-		<!-- TODO: Change to actual IP address of the Raspberry PI -->
-        <pi.host>192.168.63.101</pi.host>
+	<!-- TODO: Change to actual IP address of the Raspberry PI -->
+        <pi.host>192.168.xx.xx</pi.host>
         <pi.deployPath>/home/pi/java/jar</pi.deployPath>
         <pi.user>pi</pi.user>
         <pi.password>raspberry</pi.password>
@@ -64,6 +64,7 @@
                         <phase>install</phase>
                         <configuration>
                             <target>
+				<!-- http://www.margic.com/2015/03/deploying-jar-to-raspberry-pi-using.html -->
                                 <!-- create folder on pi -->
                                 <sshexec command="mkdir -p ${pi.deployPath}" host="${pi.host}" password="${pi.password}" port="22" trust="true" username="${pi.user}" />
                                 <!-- copy created jar into folder -->
