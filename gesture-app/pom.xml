@@ -9,8 +9,9 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-	<!-- TODO: Change to actual IP address of the Raspberry PI -->
+		<!-- TODO: Change to actual IP address of the Raspberry PI -->
         <pi.host>192.168.xx.xx</pi.host>
+		<pi.ext.dir>-Djava.ext.dirs=/home/pi/armv6hf-sdk/rt/lib/ext</pi.ext.dir>
         <pi.deployPath>/home/pi/java/jar</pi.deployPath>
         <pi.user>pi</pi.user>
         <pi.password>raspberry</pi.password>
@@ -64,7 +65,7 @@
                         <phase>install</phase>
                         <configuration>
                             <target>
-				<!-- http://www.margic.com/2015/03/deploying-jar-to-raspberry-pi-using.html -->
+								<!-- http://www.margic.com/2015/03/deploying-jar-to-raspberry-pi-using.html -->
                                 <!-- create folder on pi -->
                                 <sshexec command="mkdir -p ${pi.deployPath}" host="${pi.host}" password="${pi.password}" port="22" trust="true" username="${pi.user}" />
                                 <!-- copy created jar into folder -->
@@ -72,7 +73,7 @@
                                     <fileset file="${project.basedir}/target/${project.artifactId}-${project.version}-jar-with-dependencies.jar" />
                                 </scp>
                                 <!-- run jar on pi -->
-                                <sshexec command="sudo java -Djava.ext.dirs=/home/pi/armv6hf-sdk/rt/lib/ext -jar ${pi.deployPath}/${project.artifactId}-${project.version}-jar-with-dependencies.jar" host="${pi.host}" password="${pi.password}" port="22" trust="true" username="${pi.user}" />
+                                <sshexec command="sudo java ${pi.ext.dir} -jar ${pi.deployPath}/${project.artifactId}-${project.version}-jar-with-dependencies.jar" host="${pi.host}" password="${pi.password}" port="22" trust="true" username="${pi.user}" />
                             </target>
                         </configuration>
                         <goals>
